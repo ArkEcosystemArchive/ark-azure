@@ -104,7 +104,7 @@
       "properties": {
         "securityRules": [
           {
-            "name": "ssh-rule",
+            "name": "ssh-in-rule",
             "properties": {
               "description": "Allow SSH",
               "protocol": "Tcp",
@@ -118,7 +118,7 @@
             }
           },
           {
-            "name": "arkexplorer-rule",
+            "name": "arkexplorer-in-rule",
             "properties": {
               "description": "Allow Explorer",
               "protocol": "Tcp",
@@ -128,6 +128,20 @@
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 101,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "ark-in-rule",
+            "properties": {
+              "description": "Allow Explorer",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "4001-4002",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 102,
               "direction": "Inbound"
             }
           }
@@ -212,15 +226,15 @@
       }
     },
     {
-      "name": "scriptextensiondemo",
-      "type": "extensions",
+      "name": "preparearkscript",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/', parameters('scriptextensiondemoName'))]"
+          "[concat('Microsoft.Compute/virtualMachines/', parameters('preparearkscriptName'))]"
       ],
       "tags": {
-          "displayName": "scriptextensiondemo"
+          "displayName": "preparearkscript"
       },
       "properties": {
           "publisher": "Microsoft.Azure.Extensions",
@@ -229,9 +243,9 @@
           "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://gist.github.com/ahmetalpbalkan/b5d4a856fe15464015ae87d5587a4439/raw/466f5c30507c990a4d5a2f5c79f901fa89a80841/hello.sh"
+            "https://raw.githubusercontent.com/davepinkawa/Ark-Azure/master/Scripts/preparkserver.sh"
           ],
-          "commandToExecute": "sh hello.sh"
+          "commandToExecute": "sh preparkserver.sh"
         }
       }
   }
