@@ -171,21 +171,27 @@
       }
     },
     {
-      "name": "microsoft.custom-script-linux-20180205134831",
-      "apiVersion": "2015-01-01",
-      "type": "Microsoft.Resources/deployments",
+      "name": "[concat(variables('vmName'), '/script')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+          "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+      ],
+      "tags": {
+          "displayName": "script"
+      },
       "properties": {
-          "mode": "incremental",
-          "parameters": {
-              "fileUris": {
-                  "value": [
-                      "https://raw.githubusercontent.com/davepinkawa/Ark-Azure/master/Scripts/preparkserver.sh"
-                  ]
-              },
-              "commandToExecute": {
-                  "value": "sh preparkserver.sh"
-              }
-          }
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "https://github.com/davepinkawa/Ark-Azure/blob/master/Scripts/preparkserver.sh"
+          ],
+          "commandToExecute": "./preparkserver.sh"
+        }
       }
   }
   ],
