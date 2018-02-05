@@ -176,9 +176,6 @@
       "type": "Microsoft.Resources/deployments",
       "properties": {
           "mode": "incremental",
-          "templateLink": {
-              "uri": "https://gallery.azure.com/artifact/20161101/microsoft.custom-script-linux-arm.2.0.50/Artifacts/MainTemplate.json"
-          },
           "parameters": {
               "fileUris": {
                   "value": [
