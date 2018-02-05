@@ -188,7 +188,7 @@
           "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://github.com/davepinkawa/Ark-Azure/blob/master/Scripts/preparkserver.sh"
+            "https://raw.githubusercontent.com/davepinkawa/Ark-Azure/master/Scripts/preparkserver.sh"
           ],
           "commandToExecute": "./preparkserver.sh"
         }
