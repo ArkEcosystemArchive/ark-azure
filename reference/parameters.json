@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "southcentralus"
+        },
+        "virtualMachineName": {
+            "value": "ArkTest1"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_B2s"
+        },
+        "adminUsername": {
+            "value": "arkuser"
+        },
+        "virtualNetworkName": {
+            "value": "arktest-vnet"
+        },
+        "networkInterfaceName": {
+            "value": "arktest1622"
+        },
+        "networkSecurityGroupName": {
+            "value": "arktest-nsg"
+        },
+        "adminPassword": {
+            "value": null
+        },
+        "addressPrefix": {
+            "value": "10.1.1.0/24"
+        },
+        "subnetName": {
+            "value": "default"
+        },
+        "subnetPrefix": {
+            "value": "10.1.1.0/24"
+        },
+        "publicIpAddressName": {
+            "value": "arktest3-ip"
+        },
+        "publicIpAddressType": {
+            "value": "Dynamic"
+        },
+        "publicIpAddressSku": {
+            "value": "Basic"
+        },
+        "autoShutdownStatus": {
+            "value": "Enabled"
+        },
+        "autoShutdownTime": {
+            "value": "19:00"
+        },
+        "autoShutdownTimeZone": {
+            "value": "UTC"
+        },
+        "autoShutdownNotificationStatus": {
+            "value": "Disabled"
+        }
+    }
+}

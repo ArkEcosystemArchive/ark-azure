@@ -99,7 +99,7 @@
       "name": "[variables('frontEndNSGName')]",
       "location": "[resourceGroup().location]",
       "tags": {
-        "displayName": "NSG - ArkNode"
+        "displayName": "NSG - Front End"
       },
       "properties": {
         "securityRules": [
