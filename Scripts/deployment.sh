@@ -16,8 +16,8 @@ REWARDSTART=75600
 REWARDPERBLOCK=200000000
 TOTALPREMINE=2100000000000000
 
-./sidechain.sh install-node --name $SIDECHAINNAME --database ark_$SIDECHAINNAME --token $CHAINTOKEN --symbol $CHAINSYMBOL --forgers $CHAINFORGERS --max-votes $MAXVOTESPERWALLET --blocktime $CHAINBLOCKTIME --transactions-per-block $CHAINTRANSPERBLOCK --reward-height-start $REWARDSTART --reward-per-block $REWARDPERBLOCK --total-premine $TOTALPREMINE
-./sidechain.sh start-node --name $SIDECHAINNAME
+~/ark-deployer/sidechain.sh install-node --name $SIDECHAINNAME --database ark_$SIDECHAINNAME --token $CHAINTOKEN --symbol $CHAINSYMBOL --forgers $CHAINFORGERS --max-votes $MAXVOTESPERWALLET --blocktime $CHAINBLOCKTIME --transactions-per-block $CHAINTRANSPERBLOCK --reward-height-start $REWARDSTART --reward-per-block $REWARDPERBLOCK --total-premine $TOTALPREMINE
+~/ark-deployer/sidechain.sh start-node --name $SIDECHAINNAME
 
-./sidechain.sh install-explorer --name $SIDECHAINNAME --token $CHAINTOKEN
-./sidechain.sh start-explorer
+~/ark-deployer/sidechain.sh install-explorer --name $SIDECHAINNAME --token $CHAINTOKEN
+~/ark-deployer/sidechain.sh start-explorer
