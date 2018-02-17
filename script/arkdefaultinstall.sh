@@ -37,7 +37,7 @@ echo "Start-node for the new sidechain"
 ~/ark-deployer/sidechain.sh start-node --name $SIDECHAINNAME &>/dev/null &
 
 echo "installing explorer"
-~/ark-deployer/sidechain.sh install-explorer --name $SIDECHAINNAME --token $CHAINTOKEN --ip $PUBLICIP --autoinstall-deps
+~/ark-deployer/sidechain.sh install-explorer --name $SIDECHAINNAME --token $CHAINTOKEN --ip $PUBLICIP --skip-deps
 
 echo "Changing IP address in ~/ark-explorer/package.json to the private IP for Azure"
 sed -i "s/$PUBLICIP/$AZUREIP/g" ~/ark-explorer/package.json
