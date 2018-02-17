@@ -11,7 +11,7 @@
 <p>FQDN:  PublicDNSname.datacenter-region.cloudapp.azure.com</p>
 <p>Once the server is fully deployed, connect via SSH (PuTTY > PublicDNSName > Credentials) and then run: <p> 
 <code>curl -o- https://raw.githubusercontent.com/davepinkawa/Ark-Azure/master/script/arkdefaultinstall.sh | bash </code>
-
+<p> After approximately 10 minutes of the script running, your Ark Node Sidechain and Ark Explorer will be viewable at:  HTTP://<publicIP:4200</p>
 
 
 
