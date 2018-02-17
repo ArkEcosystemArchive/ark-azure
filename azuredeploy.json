@@ -4,6 +4,7 @@
   "parameters": {
     "adminUsername": {
       "type": "string",
+      "defaultValue": "arkadmin",
       "metadata": {
         "description": "User name for the Virtual Machine."
       }
@@ -22,12 +23,19 @@
     },
     "ubuntuOSVersion": {
       "type": "string",
-      "defaultValue": "16.04.0-LTS",
+      "defaultValue": "16.04-LTS",
       "allowedValues": [
-        "16.04.0-LTS"
+        "16.04-LTS"
       ],
       "metadata": {
         "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version."
+      }
+    },
+    "ARKNSGName": {
+      "type": "string",
+      "defaultValue": "ARK_NSG",
+      "metadata": {
+        "description": "This is name of the networkSecurityGroup that will be assigned to Ark Ubuntu Server Subnet"
       }
     }
   },
@@ -41,7 +49,7 @@
     "subnetPrefix": "10.0.0.0/24",
     "storageAccountType": "Standard_LRS",
     "publicIPAddressName": "myPublicIP",
-    "publicIPAddressType": "Dynamic",
+    "publicIPAddressType": "Static",
     "vmName": "MyUbuntuVM",
     "vmSize": "Standard_A1",
     "virtualNetworkName": "MyVNET",
@@ -49,6 +57,86 @@
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]"
   },
   "resources": [
+        {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('ARKNSGName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "ssh_rule",
+            "properties": {
+              "description": "Allow ssh",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "ark_rule_4100in",
+            "properties": {
+              "description": "Allow ARK node in",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "4100",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 101,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "ark_rule_4100out",
+            "properties": {
+              "description": "Allow ARK node out",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "4100",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 102,
+              "direction": "Outbound"
+            }
+          },
+          {
+            "name": "ark_rule_4200in",
+            "properties": {
+              "description": "Allow ARK exp in",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "4200",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 103,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "ark_rule_4200out",
+            "properties": {
+              "description": "Allow ARK exp out",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "4200",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 104,
+              "direction": "Outbound"
+            }
+          }
+        ]
+      }
+    },
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('storageAccountName')]",
@@ -77,6 +165,9 @@
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
       "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('ARKNSGName'))]"
+      ],
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -87,62 +178,10 @@
           {
             "name": "[variables('subnetName')]",
             "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[variables('frontEndNSGName')]",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "NSG - Front End"
-      },
-      "properties": {
-        "securityRules": [
-          {
-            "name": "ssh-in-rule",
-            "properties": {
-              "description": "Allow SSH",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "22",
-              "sourceAddressPrefix": "Internet",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 100,
-              "direction": "Inbound"
-            }
-          },
-          {
-            "name": "arkexplorer-in-rule",
-            "properties": {
-              "description": "Allow Explorer",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "4200",
-              "sourceAddressPrefix": "Internet",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 101,
-              "direction": "Inbound"
-            }
-          },
-          {
-            "name": "ark-in-rule",
-            "properties": {
-              "description": "Allow Explorer",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "4001-4002",
-              "sourceAddressPrefix": "Internet",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 102,
-              "direction": "Inbound"
+              "addressPrefix": "[variables('subnetPrefix')]",
+                 "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('ARKNSGName'))]"
+              }
             }
           }
         ]
@@ -224,31 +263,7 @@
           }
         }
       }
-    },
-    {
-      "name": "preparearkscript",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
-      "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/', parameters('preparearkscriptName'))]"
-      ],
-      "tags": {
-          "displayName": "preparearkscript"
-      },
-      "properties": {
-          "publisher": "Microsoft.Azure.Extensions",
-          "type": "CustomScript",
-          "typeHandlerVersion": "2.0",
-          "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": [
-            "https://raw.githubusercontent.com/davepinkawa/Ark-Azure/master/Scripts/preparkserver.sh"
-          ],
-          "commandToExecute": "sh preparkserver.sh"
-        }
-      }
-  }
+    }  
   ],
   "outputs": {
     "hostname": {

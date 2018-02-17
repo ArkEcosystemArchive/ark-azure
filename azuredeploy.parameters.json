@@ -3,13 +3,19 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "adminUsername": {
-      "value": "arkuser"
+      "value": "GEN-UNIQUE"
     },
     "adminPassword": {
       "value": "GEN-PASSWORD"
     },
     "dnsLabelPrefix": {
       "value": "GEN-UNIQUE"
+    },
+    "ARKNSGNAME": {
+      "value": "GEN-UNIQUE"
+    },
+    "ubuntuOSVersion": {
+      "value": "16.04-LTS"
     }
   }
 }
