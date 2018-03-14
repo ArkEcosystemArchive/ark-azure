@@ -18,7 +18,7 @@ sudo apt-get install -y jq
 #Variables for installations
 PUBLICIP="$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')"
 AZUREIP=10.0.0.4
-SIDECHAINNAME=MyTest
+CHAINNAME=MyTest
 DATABASENAME=ark_mytest
 CHAINTOKEN=MYTEST
 CHAINSYMBOL=MCT
@@ -31,18 +31,18 @@ REWARDPERBLOCK=200000000
 TOTALPREMINE=2100000000000000
 
 echo "Beginning ark node installation"
-~/ark-deployer/sidechain.sh install-node --name $SIDECHAINNAME --database $DATABASENAME --token $CHAINTOKEN --symbol $CHAINSYMBOL --ip $PUBLICIP --forgers $CHAINFORGERS --max-votes $MAXVOTESPERWALLET --blocktime $CHAINBLOCKTIME --transactions-per-block $CHAINTRANSPERBLOCK --reward-height-start $REWARDSTART --reward-per-block $REWARDPERBLOCK --total-premine $TOTALPREMINE --autoinstall-deps
+~/ark-deployer/bridgechain.sh install-node --name $CHAINNAME --database $DATABASENAME --token $CHAINTOKEN --symbol $CHAINSYMBOL --node-ip $PUBLICIP --explorer-ip $PUBLICIP --forgers $CHAINFORGERS --max-votes $MAXVOTESPERWALLET --blocktime $CHAINBLOCKTIME --transactions-per-block $CHAINTRANSPERBLOCK --reward-height-start $REWARDSTART --reward-per-block $REWARDPERBLOCK --total-premine $TOTALPREMINE --autoinstall-deps --non-interactive
 
-echo "Start-node for the new sidechain"
-~/ark-deployer/sidechain.sh start-node --name $SIDECHAINNAME &>/dev/null &
+echo "Start-node for the new bridgechain"
+~/ark-deployer/bridgechain.sh start-node --name $CHAINNAME --non-interactive
 
 echo "installing explorer"
-~/ark-deployer/sidechain.sh install-explorer --name $SIDECHAINNAME --token $CHAINTOKEN --ip $PUBLICIP --skip-deps
+~/ark-deployer/bridgechain.sh install-explorer --name $CHAINNAME --token $CHAINTOKEN --node-ip $PUBLICIP --explorer-ip $PUBLICIP --skip-deps
 
 echo "Changing IP address in ~/ark-explorer/package.json to the private IP for Azure"
 sed -i "s/$PUBLICIP/$AZUREIP/g" ~/ark-explorer/package.json
 
 echo "Starting ark explorer"
-~/ark-deployer/sidechain.sh start-explorer &>/dev/null &
+~/ark-deployer/bridgechain.sh start-explorer
 
 echo "Ark explorer is now started at http://$PUBLICIP:4200 - Give it a couple of minutes to start up!"
