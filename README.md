@@ -1,6 +1,6 @@
-![ark-azure](https://cdn-images-1.medium.com/max/2000/1*s_lf5nHZbD9fKHb7OxLHXA.png)
+![image](https://user-images.githubusercontent.com/8069294/37400960-781952be-277e-11e8-90a1-48d40bfb669a.png)
 
-Read full guide [here](https://blog.ark.io/ark-bridgechain-azure-guide-774f5fd63333) on how to setup ARK BridgeChain via Microsoft Azure
+**Read full guide [here](https://blog.ark.io/ark-bridgechain-azure-guide-774f5fd63333) on how to setup ARK BridgeChain via Microsoft Azure**
 
 # Deployment of Ark.io Bridgechain
 
