@@ -17,7 +17,7 @@ sudo apt-get install -y jq
 
 #Variables for installations
 PUBLICIP="$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')"
-AZUREIP=10.0.0.4
+GLOBALIP="0.0.0.0"
 CHAINNAME=MyTest
 DATABASENAME=ark_mytest
 CHAINTOKEN=MYTEST
@@ -31,7 +31,7 @@ REWARDPERBLOCK=200000000
 TOTALPREMINE=2100000000000000
 
 echo "Beginning ark node installation"
-~/ark-deployer/bridgechain.sh install-node --name $CHAINNAME --database $DATABASENAME --token $CHAINTOKEN --symbol $CHAINSYMBOL --node-ip $PUBLICIP --explorer-ip $PUBLICIP --forgers $CHAINFORGERS --max-votes $MAXVOTESPERWALLET --blocktime $CHAINBLOCKTIME --transactions-per-block $CHAINTRANSPERBLOCK --reward-height-start $REWARDSTART --reward-per-block $REWARDPERBLOCK --total-premine $TOTALPREMINE --autoinstall-deps --non-interactive
+~/ark-deployer/bridgechain.sh install-node --name $CHAINNAME --database $DATABASENAME --token $CHAINTOKEN --symbol $CHAINSYMBOL --node-ip $GLOBALIP --explorer-ip $PUBLICIP --forgers $CHAINFORGERS --max-votes $MAXVOTESPERWALLET --blocktime $CHAINBLOCKTIME --transactions-per-block $CHAINTRANSPERBLOCK --reward-height-start $REWARDSTART --reward-per-block $REWARDPERBLOCK --total-premine $TOTALPREMINE --autoinstall-deps --non-interactive
 
 echo "Start-node for the new bridgechain"
 ~/ark-deployer/bridgechain.sh start-node --name $CHAINNAME --non-interactive
@@ -39,8 +39,8 @@ echo "Start-node for the new bridgechain"
 echo "installing explorer"
 ~/ark-deployer/bridgechain.sh install-explorer --name $CHAINNAME --token $CHAINTOKEN --node-ip $PUBLICIP --explorer-ip $PUBLICIP --skip-deps
 
-echo "Changing IP address in ~/ark-explorer/package.json to the private IP for Azure"
-sed -i "s/$PUBLICIP/$AZUREIP/g" ~/ark-explorer/package.json
+echo "Changing IP address in ~/ark-explorer/start-explorer.sh to the all IPs"
+sed -i "s/$PUBLICIP/$GLOBALIP/g" ~/ark-explorer/start-explorer.sh
 
 echo "Starting ark explorer"
 ~/ark-deployer/bridgechain.sh start-explorer
