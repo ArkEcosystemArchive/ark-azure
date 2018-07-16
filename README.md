@@ -24,3 +24,6 @@ If you discover a security vulnerability within this project, please send an e-m
 ## Authors
 - [@davepinkawa](https://github.com/davepinkawa)
 - Alex Barnsley <alex@ark.io>
+
+## License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
