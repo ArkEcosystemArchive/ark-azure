@@ -17,6 +17,13 @@
 <code>curl -o- https://raw.githubusercontent.com/ArkEcosystem/ark-azure/master/script/arkdefaultinstall.sh | bash </code>
 <p> After approximately 10 minutes of the script running, your Ark Node Bridgechain and Ark Explorer will be viewable at:  HTTP://publicIP:4200 </p>
 
+## Security
+
+If you discover a security vulnerability within this project, please send an e-mail to security@ark.io. All security vulnerabilities will be promptly addressed.
+
 ## Authors
 - [@davepinkawa](https://github.com/davepinkawa)
 - Alex Barnsley <alex@ark.io>
+
+## License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
